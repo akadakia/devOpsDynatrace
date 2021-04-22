@@ -1,0 +1,25 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- dev
+
+pool:
+  vmImage: ubuntu-latest
+
+jobs:
+- job: test
+
+  steps:
+  - script: grep -r 'Hello Dynatrace World' version1/index.html
+    condition: succeeded()
+    displayName: 'search for condition text'
+
+- job: merge
+  dependsOn: test
+  condition: succeeded()
+  steps:
+  - script: git checkout main && git config --global user.email "aakash95@gmail.com" && git config --global user.name "Aakash Kadakia" && git merge origin/dev
+    displayName: 'if test passes, merge with main'
