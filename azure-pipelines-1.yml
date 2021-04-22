@@ -9,12 +9,17 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: grep -r 'Hello Dynatrace World' version1/index.html
-  condition: succeeded()
-  displayName: 'search for condition text'
+jobs:
+- job: test
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  steps:
+  - script: grep -r 'Hello Dynatrace World' version1/index.html
+    condition: succeeded()
+    displayName: 'search for condition text'
+
+- job: merge
+  dependsOn: test
+  condition: succeeded()
+  steps:
+  - script: git checkout main && git merge dev
+    displayName: 'if test passes, merge with main'
