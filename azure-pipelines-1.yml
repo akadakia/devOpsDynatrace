@@ -10,8 +10,9 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- script: grep -r 'Hello Dynatrace World' version1/index.html
+  condition: succeeded()
+  displayName: 'search for condition text'
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
