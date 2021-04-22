@@ -21,5 +21,5 @@ jobs:
   dependsOn: test
   condition: succeeded()
   steps:
-  - script: git checkout main && git merge origin/dev
+  - script: git checkout main && git merge origin/dev && git config --global user.email "aakash95@gmail.com" && git config --global user.name "Aakash Kadakia"
     displayName: 'if test passes, merge with main'
